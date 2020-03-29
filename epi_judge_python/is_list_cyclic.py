@@ -7,9 +7,36 @@ from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def has_cycle(head: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
+def has_cycle_hash_table(head: ListNode) -> Optional[ListNode]:
+    visited = set()
+
+    while head:
+        if id(head) in visited:
+            return head
+        visited.add(id(head))
+        head = head.next
+
     return None
+
+
+def has_cycle(head: ListNode) -> Optional[ListNode]:
+    slow = fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow is fast:
+            break
+
+    if fast is None or fast.next is None:
+        return None
+
+    slow = head
+    while slow is not fast:
+        slow = slow.next
+        fast = fast.next
+
+    return slow
 
 
 @enable_executor_hook
