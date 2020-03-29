@@ -348,7 +348,7 @@ problem_mapping = {
                 "total": 8
             },
             "Python: offline_sampling.py": {
-                "passed": 0,
+                "passed": 8,
                 "total": 8
             }
         },
@@ -432,7 +432,7 @@ problem_mapping = {
                 "total": 51
             },
             "Python: spiral_ordering.py": {
-                "passed": 0,
+                "passed": 51,
                 "total": 51
             }
         },
