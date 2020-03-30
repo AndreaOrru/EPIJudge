@@ -27,9 +27,28 @@ class Star:
         return math.isclose(self.distance, rhs.distance)
 
 
+from heapq import heappushpop, heapify, nsmallest, heappop, heappush
+from itertools import islice
+
+
+def find_closest_k_stars_alternative(stars: Iterator[Star], k: int) -> List[Star]:
+    max_heap = [(-s.distance, s) for s in islice(stars, k)]
+    heapify(max_heap)
+
+    for s in stars:
+        heappushpop(max_heap, (-s.distance, s))
+
+    return [s[1] for s in nsmallest(k, max_heap)]
+
+
 def find_closest_k_stars(stars: Iterator[Star], k: int) -> List[Star]:
-    # TODO - you fill in here.
-    return []
+    max_heap = []
+    for star in stars:
+        heappush(max_heap, (-star.distance, star))
+        if len(max_heap) > k:
+            heappop(max_heap)
+
+    return [star[1] for star in nsmallest(k, max_heap)]
 
 
 def comp(expected_output, output):
