@@ -5,9 +5,7 @@ from test_framework import generic_test
 def is_binary_tree_bst_helper(tree, lower_bound=float('-inf'), upper_bound=float('inf')):
     if tree is None:
         return True
-    if tree.data < lower_bound:
-        return False
-    if tree.data > upper_bound:
+    elif not lower_bound <= tree.data <= upper_bound:
         return False
 
     return is_binary_tree_bst_helper(tree.left, lower_bound, tree.data) and \
