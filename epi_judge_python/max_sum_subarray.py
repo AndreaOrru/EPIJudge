@@ -4,8 +4,14 @@ from test_framework import generic_test
 
 
 def find_maximum_subarray(A: List[int]) -> int:
-    # TODO - you fill in here.
-    return -1
+    max_sum = 0
+    curr_sum = 0
+
+    for el in A:
+        curr_sum = max(el, curr_sum + el)
+        max_sum = max(max_sum, curr_sum)
+
+    return max_sum
 
 
 if __name__ == '__main__':
