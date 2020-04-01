@@ -14,6 +14,9 @@ def levenshtein_distance(A: str, B: str) -> int:
         if result is not None:
             return result
 
+        if A[A_idx] == B[B_idx]:
+            return compute_distance(A_idx - 1, B_idx - 1)
+
         add_last = compute_distance(A_idx, B_idx - 1)
         sub_last = compute_distance(A_idx - 1, B_idx - 1)
         del_last = compute_distance(A_idx - 1, B_idx)
