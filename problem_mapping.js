@@ -2380,7 +2380,7 @@ problem_mapping = {
                 "total": 103
             },
             "Python: two_sum.py": {
-                "passed": 0,
+                "passed": 1005,
                 "total": 1005
             }
         },
@@ -2422,7 +2422,7 @@ problem_mapping = {
                 "total": 202
             },
             "Python: refueling_schedule.py": {
-                "passed": 0,
+                "passed": 202,
                 "total": 202
             }
         },
