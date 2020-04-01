@@ -2,30 +2,27 @@ from test_framework import generic_test
 
 
 def levenshtein_distance(A: str, B: str) -> int:
-    def compute_distance(A_idx, B_idx):
-        # A is empty, so add all B characters.
-        if A_idx < 0:
-            return B_idx + 1
-        # B is empty, so add all A characters.
-        if B_idx < 0:
-            return A_idx + 1
-        
-        result = table.get((A_idx, B_idx))
-        if result is not None:
-            return result
+    distances = [[0 for b in range(len(B) + 1)] for a in range(2)]
 
-        if A[A_idx] == B[B_idx]:
-            return compute_distance(A_idx - 1, B_idx - 1)
+    for A_len in range(len(A) + 1):
+        for B_len in range(len(B) + 1):
+            # One of the two strings is empty.
+            if A_len == 0:
+                distances[A_len % 2][B_len] = B_len
+            elif B_len == 0:
+                distances[A_len % 2][B_len] = A_len
 
-        add_last = compute_distance(A_idx, B_idx - 1)
-        sub_last = compute_distance(A_idx - 1, B_idx - 1)
-        del_last = compute_distance(A_idx - 1, B_idx)
+            # Characters are the same, distance doesn't increase.
+            elif A[A_len - 1] == B[B_len - 1]:
+                distances[A_len % 2][B_len] = distances[(A_len - 1) % 2][B_len - 1]
 
-        table[(A_idx, B_idx)] = result = 1 + min(add_last, sub_last, del_last)
-        return result
+            else:
+                sub_distance = distances[(A_len - 1) % 2][B_len - 1]
+                add_distance = distances[A_len % 2][B_len - 1]
+                del_distance = distances[(A_len - 1) % 2][B_len]
+                distances[A_len % 2][B_len] = 1 + min(add_distance, del_distance, sub_distance)
 
-    table = {}
-    return compute_distance(len(A) - 1, len(B) - 1)
+    return distances[A_len % 2][-1]
 
 
 if __name__ == '__main__':
