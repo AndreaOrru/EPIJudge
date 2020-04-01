@@ -7,9 +7,27 @@ from test_framework.test_utils import enable_executor_hook
 # Assume s is a list of strings, each of which is of length 1, e.g.,
 # ['r', 'a', 'm', ' ', 'i', 's', ' ', 'c', 'o', 's', 't', 'l', 'y'].
 def reverse_words(s):
-    # TODO - you fill in here.
-    return
+    def reverse_range(s, left, right):
+        while left < right:
+            s[left], s[right] = s[right], s[left]
+            left, right = left + 1, right - 1
 
+    # Reverse the whole string first.
+    reverse_range(s, 0, len(s) - 1)
+
+    # Reverse the individual words.
+    start = 0
+    while True:
+        finish = start
+        while finish < len(s) and s[finish] != ' ':
+            finish += 1
+        if finish == len(s):
+            break
+
+        reverse_range(s, start, finish - 1)
+        start = finish + 1
+    # Reverse last word.
+    reverse_range(s, start, len(s) - 1)
 
 @enable_executor_hook
 def reverse_words_wrapper(executor, s):
