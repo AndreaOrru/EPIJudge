@@ -15,14 +15,14 @@ def number_of_ways_lru(n: int, m: int) -> int:
 def number_of_ways(n: int, m: int) -> int:
     n, m = min(n, m), max(n, m)
     dp = [[0 for _ in range(n + 1)] for _ in range(2)]
-    dp[1][1] = 1
 
     for i in range(1, m + 1):
         for j in range(1, n + 1):
-            if i > 1:
-                dp[i % 2][j] = 0
-            dp[i % 2][j] += dp[(i - 1) % 2][j]
-            dp[i % 2][j] += dp[i % 2][j - 1]
+            if i == j == 1:
+                dp[i % 2][j] = 1
+            else:
+                dp[i % 2][j]  = dp[(i - 1) % 2][j]
+                dp[i % 2][j] += dp[i % 2][j - 1]
 
     return dp[m % 2][n]
 
