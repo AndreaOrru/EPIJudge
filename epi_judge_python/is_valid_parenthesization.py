@@ -1,9 +1,23 @@
 from test_framework import generic_test
 
 
+INVERSE = {
+    '(': ')',
+    '[': ']',
+    '{': '}',
+}
+
+
 def is_well_formed(s: str) -> bool:
-    # TODO - you fill in here.
-    return True
+    stack = []
+
+    for p in s:
+        if p in ('(', '[', '{'):
+            stack.append(INVERSE[p])
+        elif not stack or p != stack.pop():
+            return False
+
+    return len(stack) == 0
 
 
 if __name__ == '__main__':
