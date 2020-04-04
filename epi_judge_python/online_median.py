@@ -23,6 +23,7 @@ def online_median(sequence: Iterator[int]) -> List[float]:
 
     return medians
 
+
 def online_median_wrapper(sequence):
     return online_median(iter(sequence))
 
