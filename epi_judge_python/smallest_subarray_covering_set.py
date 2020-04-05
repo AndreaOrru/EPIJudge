@@ -6,13 +6,30 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
+from collections import OrderedDict
+from itertools import islice
+
 Subarray = collections.namedtuple('Subarray', ('start', 'end'))
 
 
 def find_smallest_subarray_covering_set(paragraph: List[str],
                                         keywords: Set[str]) -> Subarray:
-    # TODO - you fill in here.
-    return Subarray(0, 0)
+    subarray = Subarray(-1, -1)
+    keyword_positions = OrderedDict()
+
+    for i, word in enumerate(paragraph):
+        if word in keywords:
+            keyword_positions[word] = i
+            keyword_positions.move_to_end(word)
+
+        if len(keyword_positions) == len(keywords):
+            first = next(islice(keyword_positions.values(), 1))
+            if subarray == (-1, -1) or (i - first) < (subarray.end - subarray.start):
+                subarray = Subarray(first, i)
+
+            del keyword_positions[paragraph[first]]
+
+    return subarray
 
 
 @enable_executor_hook
