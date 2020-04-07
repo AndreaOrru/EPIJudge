@@ -8,8 +8,33 @@ from test_framework.test_utils import enable_executor_hook
 
 def decompose_into_dictionary_words(domain: str,
                                     dictionary: Set[str]) -> List[str]:
-    # TODO - you fill in here.
-    return []
+    last_word_length_at = [-1] * len(domain)
+
+    for i in range(len(domain)):
+        # Word in dictionary.
+        word = domain[:i + 1]
+        if word in dictionary:
+            last_word_length_at[i] = i + 1
+            continue
+
+        # Word composed by dictionary words.
+        for j in range(i):
+            word = domain[j + 1: i + 1]
+            if last_word_length_at[j] != -1 and word in dictionary:
+                last_word_length_at[i] = i - j
+
+    if last_word_length_at[i] == -1:
+        return []
+
+    decomposition = []
+    i = len(domain) - 1
+
+    while i >= 0:
+        word = domain[i - last_word_length_at[i] + 1: i + 1]
+        decomposition.append(word)
+        i -= last_word_length_at[i]
+
+    return decomposition[::-1]
 
 
 @enable_executor_hook
