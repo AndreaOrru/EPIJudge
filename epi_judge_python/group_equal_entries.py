@@ -8,10 +8,33 @@ from test_framework.test_utils import enable_executor_hook
 
 Person = collections.namedtuple('Person', ('age', 'name'))
 
+from collections import defaultdict
+
 
 def group_by_age(people: List[Person]) -> None:
-    # TODO - you fill in here.
-    return
+    age_to_count = defaultdict(int)
+    for person in people:
+        age_to_count[person.age] += 1
+
+    age_to_offset, offset = {}, 0
+    for age, count in age_to_count.items():
+        age_to_offset[age] = offset
+        offset += count
+
+    while age_to_offset:
+        from_age = next(iter(age_to_offset))
+        from_idx = age_to_offset[from_age]
+
+        to_age = people[from_idx].age
+        to_idx = age_to_offset[to_age]
+
+        people[from_idx], people[to_idx] = people[to_idx], people[from_idx]
+
+        age_to_count[to_age] -= 1
+        if age_to_count[to_age]:
+            age_to_offset[to_age] += 1
+        else:
+            del age_to_offset[to_age]
 
 
 @enable_executor_hook
