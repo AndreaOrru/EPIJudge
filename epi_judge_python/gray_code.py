@@ -9,7 +9,7 @@ def differ_by_1_bit(x, y):
     bit_difference = x ^ y
     return bit_difference and not bit_difference & (bit_difference - 1)
 
-def gray_code(num_bits: int) -> List[int]:
+def gray_code_rec(num_bits: int) -> List[int]:
     def directed_gray_code(history):
         if len(result) == 1 << num_bits:
             return differ_by_1_bit(result[0], result[-1])
@@ -30,6 +30,16 @@ def gray_code(num_bits: int) -> List[int]:
     result = [0]
     directed_gray_code({0})
     return result
+
+
+def gray_code(num_bits: int) -> List[int]:
+    if num_bits == 0:
+        return [0]
+
+    prev_gray_code = gray_code(num_bits - 1)
+    leading_bit = 1 << (num_bits - 1)
+
+    return prev_gray_code + [leading_bit | i for i in reversed(prev_gray_code)]
 
 
 @enable_executor_hook
