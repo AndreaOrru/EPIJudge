@@ -13,8 +13,16 @@ class BinaryTreeNode:
 
 
 def construct_right_sibling(tree: BinaryTreeNode) -> None:
-    # TODO - you fill in here.
-    return
+    def populate_level(node):
+        while node and node.left:
+            node.left.next = node.right
+            if node.next:
+                node.right.next = node.next.left
+            node = node.next
+
+    while tree and tree.left:
+        populate_level(tree)
+        tree = tree.left
 
 
 def traverse_next(node):
