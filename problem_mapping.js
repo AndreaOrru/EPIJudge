@@ -2734,7 +2734,7 @@ problem_mapping = {
                 "total": 149
             },
             "Python: max_of_sliding_window.py": {
-                "passed": 0,
+                "passed": 149,
                 "total": 149
             }
         },
