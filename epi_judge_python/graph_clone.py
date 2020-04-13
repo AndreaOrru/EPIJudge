@@ -4,6 +4,8 @@ from typing import List
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
+from copy import copy
+
 
 class GraphVertex:
     def __init__(self, label: int) -> None:
@@ -12,8 +14,20 @@ class GraphVertex:
 
 
 def clone_graph(graph: GraphVertex) -> GraphVertex:
-    # TODO - you fill in here.
-    return GraphVertex(0)
+    copies = {graph: GraphVertex(graph.label)}
+    queue = collections.deque([graph])
+
+    while queue:
+        node = queue.popleft()
+        copied_node = copies[node]
+
+        for adjacent in node.edges:
+            if adjacent not in copies:
+                copies[adjacent] = GraphVertex(adjacent.label)
+                queue.append(adjacent)
+            copied_node.edges.append(copies[adjacent])
+
+    return copies[graph]
 
 
 def copy_labels(edges):
